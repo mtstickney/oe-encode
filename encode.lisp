@@ -8,6 +8,10 @@
 
 (in-package #:oe-encode)
 
+;;; This is a port of Pieter van Ginkel's C# implementation from the
+;;; ProgressEncode project
+;;; (https://github.com/pvginkel/ProgressEncode).
+
 (defparameter +magic-numbers+
   #(0 49345 49537 320 49921 960 640 49729 50689 1728 1920 51009 1280 50625 50305
     1088 52225 3264 3456 52545 3840 53185 52865 3648 2560 51905 52097 2880 51457
