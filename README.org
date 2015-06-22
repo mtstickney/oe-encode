@@ -1,0 +1,44 @@
+* Introduction
+  This is a port of Pieter van Ginkel's C# [[https://github.com/pvginkel/ProgressEncode][implementation]] of the
+  =ENCODE()= hash function from Progress OpenEdge. To paraphrase
+  Pieter: Progress has declined to make the algorithm for =ENCODE()=
+  public, which is problematic when working with legacy systems
+  (particularly where it's been used to hash user passwords). This
+  implementation provides a compatible implementation of the hash
+  function.
+
+* API
+** (hash-bytes bytes)
+   Usage:
+   : (hash-bytes #(1 2 3 4))
+   : ;=> #(97 98 109 99 97 110 106 67 108 106 102 120 113 77 76 119)
+
+   =HASH-BYTES= takes a sequence of =(unsigned-byte 8)= and returns a
+   =(vector (unsigned-byte 8) 16)= that is the bytes of the resulting
+   hash.
+
+** (hash-string string &key encoding)
+   Usage:
+   : (hash-string "foo" :encoding :utf-8)
+   : ;=> #(108 97 99 100 107 71 106 117 108 105 106 99 108 110 97 97)
+
+   =HASH-STRING= uses =HASH-BYTES= to hash the input string after
+   encoding it with the specified encoding. If =:encoding= is not
+   supplied, =:iso-8559-1= is used.
+
+** (hash-string string &key in-encoding out-encoding)
+   Usage:
+   : (oe-encode:hash-string->string "foo" :in-encoding :utf-8 :out-encoding :utf-8)
+   : ;=> "lacdkGjulijclnaa"
+
+   =HASH-STRING->STRING= works like =HASH-STRING= but decodes the
+   result result into a string before returning it -- the Progress API
+   operates on and returns strings, so this is likely to be the most
+   convenient function for working with existing data. =:in-encoding=
+   is used to encode the input before hashing and defaults to
+   =:iso-8559-1=, =:out-encoding= is used to decode the resulting hash
+   bytes as a string and defaults to the value of =:in-encoding=.
+
+   Note that the =ENCODE()= algorithm ensures that output bytes are
+   always in the range of alphabetic ASCII characters, so output
+   encodings that are ASCII-compatible are preferrable.
