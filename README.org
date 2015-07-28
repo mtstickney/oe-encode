@@ -26,7 +26,7 @@
    encoding it with the specified encoding. If =:encoding= is not
    supplied, =:iso-8559-1= is used.
 
-** (hash-string string &key in-encoding out-encoding)
+** (hash-string->string string &key in-encoding out-encoding)
    Usage:
    : (oe-encode:hash-string->string "foo" :in-encoding :utf-8 :out-encoding :utf-8)
    : ;=> "lacdkGjulijclnaa"
